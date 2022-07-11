@@ -110,35 +110,38 @@ const middleCards = [
 ];
 
 function Body({ gameType }) {
-  const setRandomBounds = useCallback((gameType) => {
-    if (gameType === "Infinite") {
-      let randomLeft =
-        leftSideCards[Math.floor(Math.random() * leftSideCards.length)];
-      let randomRight =
-        rightSideCards[Math.floor(Math.random() * rightSideCards.length)];
-      setLeftCard(randomLeft);
-      setRightCard(randomRight);
-      setMiddleCard("");
-      setMiddleShown(false);
-    } else if (gameType === "Standard") {
-      if (deckOfCards.length <= 2) {
-        resetGames(gameType);
-        setOpen(true);
-        return;
+  const setRandomBounds = useCallback(
+    (gameType) => {
+      if (gameType === "Infinite") {
+        let randomLeft =
+          leftSideCards[Math.floor(Math.random() * leftSideCards.length)];
+        let randomRight =
+          rightSideCards[Math.floor(Math.random() * rightSideCards.length)];
+        setLeftCard(randomLeft);
+        setRightCard(randomRight);
+        setMiddleCard("");
+        setMiddleShown(false);
+      } else if (gameType === "Standard") {
+        if (deckOfCards.length <= 2) {
+          resetGames(gameType);
+          setOpen(true);
+          return;
+        }
+        let randomIndex = Math.floor(Math.random() * deckOfCards.length);
+        let chosenLeft = deckOfCards[randomIndex];
+        deckOfCards.splice(randomIndex, 1);
+        let randomIndex2 = Math.floor(Math.random() * deckOfCards.length);
+        let chosenRight = deckOfCards[randomIndex2];
+        deckOfCards.splice(randomIndex2, 1);
+        setLeftCard(chosenLeft);
+        setRightCard(chosenRight);
+        setMiddleCard("");
+        setMiddleShown(false);
       }
-      let randomIndex = Math.floor(Math.random() * deckOfCards.length);
-      let chosenLeft = deckOfCards[randomIndex];
-      deckOfCards.splice(randomIndex, 1);
-      let randomIndex2 = Math.floor(Math.random() * deckOfCards.length);
-      let chosenRight = deckOfCards[randomIndex2];
-      deckOfCards.splice(randomIndex2, 1);
-      setLeftCard(chosenLeft);
-      setRightCard(chosenRight);
-      setMiddleCard("");
-      setMiddleShown(false);
-    }
-  }, []);
-  const resetGames = () => {
+    },
+    [resetGames]
+  );
+  const resetGames = useCallback(() => {
     deckOfCards = [
       "A H",
       "2 H",
@@ -194,7 +197,7 @@ function Body({ gameType }) {
       "K D",
     ];
     setRandomBounds(gameType);
-  };
+  }, [setRandomBounds]);
   const displayMiddleCard = (gameType) => {
     if (gameType === "Infinite") {
       let randomMiddle =
