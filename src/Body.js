@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import TextField from "@mui/material/TextField";
@@ -331,6 +331,10 @@ function Body({ gameType }) {
     ];
     setRandomBounds(gameType);
   }, [gameType, setRandomBounds]);
+  const style = {
+    // Adding media query..
+    "@media (max-width: 600px)": {},
+  };
   return (
     <div className="body">
       <Modal
@@ -348,10 +352,10 @@ function Body({ gameType }) {
           style={{
             backgroundColor: "#282c34",
             color: "white",
-            height: "20vh",
-            width: "80vw",
-            left: "10vw",
-            top: "40vh",
+            height: "50vh",
+            width: "60vw",
+            left: "20vw",
+            top: "25vh",
             position: "absolute",
             boxShadow: 24,
             display: "flex",
@@ -362,15 +366,18 @@ function Body({ gameType }) {
         >
           <TextField
             id="outlined-basic"
-            label="Enter player count"
+            label="Player count"
             variant="outlined"
             value={playerCount}
+            placeholder="Enter"
             onChange={(e) => setPlayerCount(e.target.value)}
             color="warning"
             className="enter-players"
             InputProps={{
               style: {
                 color: "white",
+                borderBlockColor: "white",
+                width: "40vw",
               },
             }}
             InputLabelProps={{

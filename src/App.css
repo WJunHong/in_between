@@ -210,6 +210,13 @@
   }
   .player-container {
     justify-content: center;
+    margin-top: 8px !important;
+  }
+  .player-item div {
+    padding: 8px;
+    border-radius: 10px;
+    color: black;
+    border: 1px solid #282c34;
   }
 }
 
