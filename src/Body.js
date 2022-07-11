@@ -263,7 +263,7 @@ function Body({ gameType }) {
       parent.children.item(prev).firstChild.style.backgroundColor = "white";
       parent.children.item(prev).firstChild.style.color = "black";
     }
-  }, [turn]);
+  }, [turn, openModal, playerCount]);
   useEffect(() => {
     if (playerArray.length > 0) {
       document.querySelector(
