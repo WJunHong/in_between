@@ -6,9 +6,64 @@ import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import TextField from "@mui/material/TextField";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 
 const suites = ["Spades", "Hearts", "Diamonds", "Clubs"];
-
+let deckOfCards = [
+  "A H",
+  "2 H",
+  "3 H",
+  "4 H",
+  "5 H",
+  "6 H",
+  "7 H",
+  "8 H",
+  "9 H",
+  "10 H",
+  "J H",
+  "Q H",
+  "K H",
+  "A S",
+  "2 S",
+  "3 S",
+  "4 S",
+  "5 S",
+  "6 S",
+  "7 S",
+  "8 S",
+  "9 S",
+  "10 S",
+  "J S",
+  "Q S",
+  "K S",
+  "A C",
+  "2 C",
+  "3 C",
+  "4 C",
+  "5 C",
+  "6 C",
+  "7 C",
+  "8 C",
+  "9 C",
+  "10 C",
+  "J C",
+  "Q C",
+  "K C",
+  "A D",
+  "2 D",
+  "3 D",
+  "4 D",
+  "5 D",
+  "6 D",
+  "7 D",
+  "8 D",
+  "9 D",
+  "10 D",
+  "J D",
+  "Q D",
+  "K D",
+];
 const leftSideCards = [
   "A",
   "2",
@@ -67,26 +122,93 @@ function Body({ gameType }) {
       setMiddleCard("");
       setMiddleShown(false);
     } else if (gameType === "Standard") {
-      let randomLSuite = suites[Math.floor(Math.random() * suites.length)];
-      let randomRSuite = suites[Math.floor(Math.random() * suites.length)];
-      setLeftSuite(randomLSuite);
-      setRightSuite(randomRSuite);
-      let randomLeft =
-        leftSideCards[Math.floor(Math.random() * leftSideCards.length)];
-      let randomRight =
-        rightSideCards[Math.floor(Math.random() * rightSideCards.length)];
-      setLeftCard(randomLeft);
-      setRightCard(randomRight);
+      if (deckOfCards.length <= 2) {
+        resetGames(gameType);
+        setOpen(true);
+        return;
+      }
+      let randomIndex = Math.floor(Math.random() * deckOfCards.length);
+      let chosenLeft = deckOfCards[randomIndex];
+      deckOfCards.splice(randomIndex, 1);
+      let randomIndex2 = Math.floor(Math.random() * deckOfCards.length);
+      let chosenRight = deckOfCards[randomIndex2];
+      deckOfCards.splice(randomIndex2, 1);
+      setLeftCard(chosenLeft);
+      setRightCard(chosenRight);
       setMiddleCard("");
-      setMiddleSuite("");
       setMiddleShown(false);
     }
   };
-  const displayMiddleCard = () => {
-    let randomMiddle =
-      middleCards[Math.floor(Math.random() * middleCards.length)];
-    setMiddleCard(randomMiddle);
-    setMiddleShown(true);
+  const resetGames = () => {
+    deckOfCards = [
+      "A H",
+      "2 H",
+      "3 H",
+      "4 H",
+      "5 H",
+      "6 H",
+      "7 H",
+      "8 H",
+      "9 H",
+      "10 H",
+      "J H",
+      "Q H",
+      "K H",
+      "A S",
+      "2 S",
+      "3 S",
+      "4 S",
+      "5 S",
+      "6 S",
+      "7 S",
+      "8 S",
+      "9 S",
+      "10 S",
+      "J S",
+      "Q S",
+      "K S",
+      "A C",
+      "2 C",
+      "3 C",
+      "4 C",
+      "5 C",
+      "6 C",
+      "7 C",
+      "8 C",
+      "9 C",
+      "10 C",
+      "J C",
+      "Q C",
+      "K C",
+      "A D",
+      "2 D",
+      "3 D",
+      "4 D",
+      "5 D",
+      "6 D",
+      "7 D",
+      "8 D",
+      "9 D",
+      "10 D",
+      "J D",
+      "Q D",
+      "K D",
+    ];
+    setRandomBounds(gameType);
+  };
+  const displayMiddleCard = (gameType) => {
+    if (gameType === "Infinite") {
+      let randomMiddle =
+        middleCards[Math.floor(Math.random() * middleCards.length)];
+      setMiddleCard(randomMiddle);
+      setMiddleShown(true);
+    } else if (gameType === "Standard") {
+      let randomIndex = Math.floor(Math.random() * deckOfCards.length);
+      let selectedCard = deckOfCards[randomIndex];
+      deckOfCards.splice(randomIndex, 1);
+      setMiddleCard(selectedCard);
+      setMiddleShown(true);
+    }
   };
   const adjustPot = (type) => {
     if (type) {
@@ -109,28 +231,24 @@ function Body({ gameType }) {
   const [potAmount, setPotAmount] = useState(0);
   const [inputPot, setInputPot] = useState("");
   const [middleShown, setMiddleShown] = useState(false);
-  const [leftSuite, setLeftSuite] = useState("");
-  const [middleSuite, setMiddleSuite] = useState("");
-  const [rightSuite, setRightSuite] = useState("");
-  useEffect(() => setRandomBounds(gameType), [gameType]);
+  const [open, setOpen] = useState(false);
+  useEffect(() => resetGames(), [gameType]);
   return (
     <div className="body">
       <Grid container spacing={2} className="card-container">
         <Grid item xs={3} className="cardGrid">
           <Card className="cards" style={{ backgroundColor: "skyblue" }}>
-            {gameType === "Infinite" ? leftCard : `${leftCard} ${leftSuite}`}
+            {leftCard}
           </Card>
         </Grid>
         <Grid item xs={3} className="cardGrid">
           <Card className="cards" style={{ backgroundColor: "grey" }}>
-            {gameType === "Infinite"
-              ? middleCard
-              : `${middleCard} ${middleSuite}`}
+            {middleCard}
           </Card>
         </Grid>
         <Grid item xs={3} className="cardGrid">
           <Card className="cards" style={{ backgroundColor: "skyblue" }}>
-            {gameType === "Infinite" ? rightCard : `${rightCard} ${rightSuite}`}
+            {rightCard}
           </Card>
         </Grid>
       </Grid>
@@ -140,7 +258,7 @@ function Body({ gameType }) {
             variant="contained"
             color="success"
             className="buttons"
-            onClick={() => displayMiddleCard()}
+            onClick={() => displayMiddleCard(gameType)}
             disabled={middleShown}
           >
             Show card
@@ -189,6 +307,23 @@ function Body({ gameType }) {
           </IconButton>
         </div>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={() => {
+          setOpen(false);
+        }}
+      >
+        <Alert
+          severity="success"
+          onClose={() => {
+            setOpen(false);
+          }}
+        >
+          Deck of cards reset!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
