@@ -208,6 +208,9 @@ function Body({ gameType }) {
     }
   };
   const adjustPot = (type) => {
+    if (inputPot.trim() === "") {
+      return;
+    }
     if (type) {
       if (!isNaN(inputPot)) {
         let newPot = parseInt(potAmount) + parseInt(inputPot);
