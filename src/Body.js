@@ -9,7 +9,6 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
-const suites = ["Spades", "Hearts", "Diamonds", "Clubs"];
 let deckOfCards = [
   "A H",
   "2 H",
