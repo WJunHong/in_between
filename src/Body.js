@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { Button, IconButton, Typography } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import TextField from "@mui/material/TextField";
@@ -331,10 +331,7 @@ function Body({ gameType }) {
     ];
     setRandomBounds(gameType);
   }, [gameType, setRandomBounds]);
-  const style = {
-    // Adding media query..
-    "@media (max-width: 600px)": {},
-  };
+
   return (
     <div className="body">
       <Modal
@@ -353,6 +350,7 @@ function Body({ gameType }) {
             backgroundColor: "#282c34",
             color: "white",
             height: "50vh",
+            minHeight: "100px",
             width: "60vw",
             left: "20vw",
             top: "25vh",
