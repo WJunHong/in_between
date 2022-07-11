@@ -115,6 +115,16 @@
     width: 48px;
     height: 48px;
   }
+  .player-container {
+    justify-content: space-around;
+    margin-top: 8px !important;
+  }
+  .player-item div {
+    padding: 8px;
+    border-radius: 10px;
+    color: black;
+    border: 1px solid #282c34;
+  }
 }
 
 @media (min-width: 601px) {
@@ -197,6 +207,9 @@
   .buttons {
     min-height: 48px;
     min-width: calc((40vw - 4px) / 2);
+  }
+  .player-container {
+    justify-content: center;
   }
 }
 

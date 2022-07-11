@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+import Modal from "@mui/material/Modal";
 
 let deckOfCards = [
   "A H",
@@ -206,6 +207,8 @@ function Body({ gameType }) {
       setMiddleCard(selectedCard);
       setMiddleShown(true);
     }
+    let nextTurn = (turn + 1) % parseInt(playerCount);
+    setTurn(nextTurn);
   };
   const adjustPot = (type) => {
     if (inputPot.trim() === "") {
@@ -225,6 +228,19 @@ function Body({ gameType }) {
       }
     }
   };
+  const startGame = () => {
+    if (playerCount.trim() === "" || isNaN(playerCount)) {
+      setOpen(true);
+      return;
+    } else {
+      setPlayers();
+      setOpenModal(false);
+    }
+  };
+  const setPlayers = () => {
+    let totalPlayers = parseInt(playerCount);
+    setPlayerArray([...Array(totalPlayers).keys()]);
+  };
   const [leftCard, setLeftCard] = useState("");
   const [rightCard, setRightCard] = useState("");
   const [middleCard, setMiddleCard] = useState("");
@@ -232,6 +248,32 @@ function Body({ gameType }) {
   const [inputPot, setInputPot] = useState("");
   const [middleShown, setMiddleShown] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(true);
+  const [playerCount, setPlayerCount] = useState("");
+  const [playerArray, setPlayerArray] = useState([]);
+  const [turn, setTurn] = useState(0);
+  useEffect(() => {
+    let parent = document.querySelector(".player-container");
+    if (turn === 0 && openModal) {
+      return;
+    } else {
+      let prev = turn === 0 ? parseInt(playerCount - 1) : turn - 1;
+      parent.children.item(turn).firstChild.style.backgroundColor = "#282c34";
+      parent.children.item(turn).firstChild.style.color = "white";
+      parent.children.item(prev).firstChild.style.backgroundColor = "white";
+      parent.children.item(prev).firstChild.style.color = "black";
+    }
+  }, [turn]);
+  useEffect(() => {
+    if (playerArray.length > 0) {
+      document.querySelector(
+        ".player-container"
+      ).firstChild.firstChild.style.backgroundColor = "#282c34";
+      document.querySelector(
+        ".player-container"
+      ).firstChild.firstChild.style.color = "white";
+    }
+  }, [playerArray]);
   useEffect(() => {
     deckOfCards = [
       "A H",
@@ -291,6 +333,62 @@ function Body({ gameType }) {
   }, [gameType, setRandomBounds]);
   return (
     <div className="body">
+      <Modal
+        open={openModal}
+        onClose={(_, reason) => {
+          if (reason !== "backdropClick") {
+            setOpenModal(false);
+          }
+        }}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Card
+          className="start-game"
+          style={{
+            backgroundColor: "#282c34",
+            color: "white",
+            height: "20vh",
+            width: "80vw",
+            left: "10vw",
+            top: "40vh",
+            position: "absolute",
+            boxShadow: 24,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            flexDirection: "column",
+          }}
+        >
+          <TextField
+            id="outlined-basic"
+            label="Enter player count"
+            variant="outlined"
+            value={playerCount}
+            onChange={(e) => setPlayerCount(e.target.value)}
+            color="warning"
+            className="enter-players"
+            InputProps={{
+              style: {
+                color: "white",
+              },
+            }}
+            InputLabelProps={{
+              style: { color: "white" },
+            }}
+          />
+          <Button
+            variant="contained"
+            color="success"
+            className="start-button"
+            onClick={() => {
+              startGame();
+            }}
+          >
+            Start
+          </Button>
+        </Card>
+      </Modal>
       <Grid container spacing={2} className="card-container">
         <Grid item xs={3} className="cardGrid">
           <Card className="cards" style={{ backgroundColor: "skyblue" }}>
@@ -363,6 +461,14 @@ function Body({ gameType }) {
           </IconButton>
         </div>
       </div>
+      <div style={{ marginTop: "12px" }}>Turn:</div>
+      <Grid container spacing={2} className="player-container">
+        {playerArray.map((ele) => (
+          <Grid item xs={2} className="player-item" key={ele}>
+            <div>{`Player ${ele + 1}`}</div>
+          </Grid>
+        ))}
+      </Grid>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={open}
@@ -372,12 +478,12 @@ function Body({ gameType }) {
         }}
       >
         <Alert
-          severity="success"
+          severity={openModal ? "warning" : "success"}
           onClose={() => {
             setOpen(false);
           }}
         >
-          Deck of cards reset!
+          {openModal ? "At least 1 player needed!" : "Deck of cards reset!"}
         </Alert>
       </Snackbar>
     </div>
