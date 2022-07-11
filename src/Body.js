@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import { Button, IconButton } from "@mui/material";
@@ -110,7 +110,7 @@ const middleCards = [
 ];
 
 function Body({ gameType }) {
-  const setRandomBounds = (gameType) => {
+  const setRandomBounds = useCallback((gameType) => {
     if (gameType === "Infinite") {
       let randomLeft =
         leftSideCards[Math.floor(Math.random() * leftSideCards.length)];
@@ -137,7 +137,7 @@ function Body({ gameType }) {
       setMiddleCard("");
       setMiddleShown(false);
     }
-  };
+  }, []);
   const resetGames = () => {
     deckOfCards = [
       "A H",
