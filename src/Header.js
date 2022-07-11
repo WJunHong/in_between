@@ -14,7 +14,7 @@ function Header({ setGameType }) {
     <div className="header">
       <AppBar style={{ background: "#282c34" }}>
         <div className="logo-name">
-          <div className="logo-anya"></div>Let's Play In or Out
+          <div className="logo-anya"></div>Let's Play In-between
         </div>
         <FormGroup>
           <FormControlLabel
