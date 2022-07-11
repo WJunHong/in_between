@@ -110,94 +110,89 @@ const middleCards = [
 ];
 
 function Body({ gameType }) {
-  const setRandomBounds = useCallback(
-    (gameType) => {
-      if (gameType === "Infinite") {
-        let randomLeft =
-          leftSideCards[Math.floor(Math.random() * leftSideCards.length)];
-        let randomRight =
-          rightSideCards[Math.floor(Math.random() * rightSideCards.length)];
-        setLeftCard(randomLeft);
-        setRightCard(randomRight);
-        setMiddleCard("");
-        setMiddleShown(false);
-      } else if (gameType === "Standard") {
-        if (deckOfCards.length <= 2) {
-          resetGames(gameType);
-          setOpen(true);
-          return;
-        }
-        let randomIndex = Math.floor(Math.random() * deckOfCards.length);
-        let chosenLeft = deckOfCards[randomIndex];
-        deckOfCards.splice(randomIndex, 1);
-        let randomIndex2 = Math.floor(Math.random() * deckOfCards.length);
-        let chosenRight = deckOfCards[randomIndex2];
-        deckOfCards.splice(randomIndex2, 1);
-        setLeftCard(chosenLeft);
-        setRightCard(chosenRight);
-        setMiddleCard("");
-        setMiddleShown(false);
+  const setRandomBounds = useCallback((gameType) => {
+    if (gameType === "Infinite") {
+      let randomLeft =
+        leftSideCards[Math.floor(Math.random() * leftSideCards.length)];
+      let randomRight =
+        rightSideCards[Math.floor(Math.random() * rightSideCards.length)];
+      setLeftCard(randomLeft);
+      setRightCard(randomRight);
+      setMiddleCard("");
+      setMiddleShown(false);
+    } else if (gameType === "Standard") {
+      if (deckOfCards.length <= 2) {
+        deckOfCards = [
+          "A H",
+          "2 H",
+          "3 H",
+          "4 H",
+          "5 H",
+          "6 H",
+          "7 H",
+          "8 H",
+          "9 H",
+          "10 H",
+          "J H",
+          "Q H",
+          "K H",
+          "A S",
+          "2 S",
+          "3 S",
+          "4 S",
+          "5 S",
+          "6 S",
+          "7 S",
+          "8 S",
+          "9 S",
+          "10 S",
+          "J S",
+          "Q S",
+          "K S",
+          "A C",
+          "2 C",
+          "3 C",
+          "4 C",
+          "5 C",
+          "6 C",
+          "7 C",
+          "8 C",
+          "9 C",
+          "10 C",
+          "J C",
+          "Q C",
+          "K C",
+          "A D",
+          "2 D",
+          "3 D",
+          "4 D",
+          "5 D",
+          "6 D",
+          "7 D",
+          "8 D",
+          "9 D",
+          "10 D",
+          "J D",
+          "Q D",
+          "K D",
+        ];
+        setRandomBounds(gameType);
+        setOpen(true);
+        return;
       }
-    },
-    [resetGames]
-  );
-  const resetGames = useCallback(() => {
-    deckOfCards = [
-      "A H",
-      "2 H",
-      "3 H",
-      "4 H",
-      "5 H",
-      "6 H",
-      "7 H",
-      "8 H",
-      "9 H",
-      "10 H",
-      "J H",
-      "Q H",
-      "K H",
-      "A S",
-      "2 S",
-      "3 S",
-      "4 S",
-      "5 S",
-      "6 S",
-      "7 S",
-      "8 S",
-      "9 S",
-      "10 S",
-      "J S",
-      "Q S",
-      "K S",
-      "A C",
-      "2 C",
-      "3 C",
-      "4 C",
-      "5 C",
-      "6 C",
-      "7 C",
-      "8 C",
-      "9 C",
-      "10 C",
-      "J C",
-      "Q C",
-      "K C",
-      "A D",
-      "2 D",
-      "3 D",
-      "4 D",
-      "5 D",
-      "6 D",
-      "7 D",
-      "8 D",
-      "9 D",
-      "10 D",
-      "J D",
-      "Q D",
-      "K D",
-    ];
-    setRandomBounds(gameType);
-  }, [setRandomBounds]);
+      let randomIndex = Math.floor(Math.random() * deckOfCards.length);
+      let chosenLeft = deckOfCards[randomIndex];
+      deckOfCards.splice(randomIndex, 1);
+      let randomIndex2 = Math.floor(Math.random() * deckOfCards.length);
+      let chosenRight = deckOfCards[randomIndex2];
+      deckOfCards.splice(randomIndex2, 1);
+      setLeftCard(chosenLeft);
+      setRightCard(chosenRight);
+      setMiddleCard("");
+      setMiddleShown(false);
+    }
+  }, []);
+
   const displayMiddleCard = (gameType) => {
     if (gameType === "Infinite") {
       let randomMiddle =
