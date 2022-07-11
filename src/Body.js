@@ -287,7 +287,7 @@ function Body({ gameType }) {
       "K D",
     ];
     setRandomBounds(gameType);
-  }, [gameType]);
+  }, [gameType, setRandomBounds]);
   return (
     <div className="body">
       <Grid container spacing={2} className="card-container">
